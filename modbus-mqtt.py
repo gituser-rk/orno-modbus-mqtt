@@ -8,9 +8,9 @@ from timeloop import Timeloop
 from datetime import timedelta
 
 smartmeter = minimalmodbus.Instrument('/dev/ttyUSB0', 1) # port name, slave address (in decimal)
-smartmeter.serial.baudrate = 2400         # Baud
+smartmeter.serial.baudrate = 2400         # Baud - vendor default is 9600
 smartmeter.serial.bytesize = 8
-smartmeter.serial.parity   = serial.PARITY_NONE
+smartmeter.serial.parity   = serial.PARITY_NONE # vendor default is EVEN
 smartmeter.serial.stopbits = 1
 smartmeter.serial.timeout  = 0.20          # seconds
 smartmeter.mode = minimalmodbus.MODE_RTU   # rtu or ascii mode
