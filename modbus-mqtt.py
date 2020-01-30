@@ -24,7 +24,6 @@ user = "user"
 password = "pass"
 
 tl = Timeloop()
-
 @tl.job(interval=timedelta(seconds=10))
 def sample_job_every_10s():
     value = "{}".format(time.ctime())
@@ -71,7 +70,6 @@ def sample_job_every_10s():
     #print (ReactiveEnergyTxt)
     client.publish("home/energy/solar/ReactiveEnergy",int(ReactiveEnergy)) # publish ReactiveEnergy in kvarh
 
-
 def on_connect(client, userdata, flags, rc):
 
     if rc == 0:
@@ -85,22 +83,17 @@ def on_connect(client, userdata, flags, rc):
 
         print("Connection failed")
 
-
-client = mqttClient.Client("modbus-mqtt@junkers")   #create new instance
+client = mqttClient.Client("modbus-mqtt@raspberry")   #create new instance, set MQTT client ID
 client.username_pw_set(user, password=password)    #set username and password
 client.on_connect= on_connect                      #attach function to callback
 client.connect(broker_address, port=port)          #connect to broker
 
-client.loop_start()        #start the loop
-
+client.loop_start()        #start the MQTT loop
 while Connected != True:    #Wait for connection
     time.sleep(0.1)
-
 
 if __name__ == "__main__":  #main loop
     tl.start(block=True)
 
-
 client.disconnect()
 client.loop_stop()
-
