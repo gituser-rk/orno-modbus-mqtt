@@ -32,7 +32,7 @@ def sample_job_every_10s():
     f = open("/sys/class/thermal/thermal_zone0/temp", "r")
     t = f.readline ()
     t = float(t)/1000   # needs to be converted
-    client.publish("home/energy/solar/RaspPiCpuTemp",t) # publish cpu temperature in degree celtigrade
+    client.publish("home/energy/solar/RaspPiCpuTemp",t) # publish cpu temperature in degree celsius
     Frequency = smartmeter.read_register(304, 2, 3, True)  # registeraddress, number_of_decimals=0, functioncode=3, signed=False
     #FrequencyTxt = "Die Frequenz ist: %.2f Herz" % Frequency
     #print (FrequencyTxt)
