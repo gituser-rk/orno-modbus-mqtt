@@ -24,14 +24,11 @@ other:
 - MQTT broker of your choice
 - Linux Platform (Raspian Stretch)
 
-
-```
 # Starting the scipt
-first make it executable:
-chmod +x modbus-mqtt.py
-executing:
-./modbus-mqtt.py&
-
-recommended is creating an systemd service to make it running in the backround
 ```
-
+# first make it executable:
+chmod +x modbus-mqtt.py
+# executing:
+./modbus-mqtt.py&
+```
+recommended is creating an systemd service to make it running in the backround
