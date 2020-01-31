@@ -1,9 +1,9 @@
 # orno-modbus-mqtt
 Read ORNO OR-WE-514 ModbusRTU energy meter via RS485 serial and publish values to MQTT broker
 
-The script reads the values every 10 seconds from the energy meter and publish them to the MQTT broker. Read-out and publish takes about 2-3 seconds for all values.
+The script reads the values every 10 seconds from the energy meter and publish them to the MQTT broker. Read-out and publish takes about 1 second for all values @ 9600 Baud speed and 2-3 seconds @ 2400 Baud speed.
 Additionally, it publishes the CPU temperature of the Raspberry Pi and a timestamp to MQTT.
-I've changed the serial setting in the meter to 2400 Baud / 8N1 with the vendor provided Windows software. Without doing this, the settings in modbus-mqtt.py must be altered to the vendor settings: 9600 Baud / 8E1.
+I've changed the serial setting in the meter to 9600 Baud / 8N1 with the vendor provided Windows software. Without doing this, the settings in modbus-mqtt.py must be altered to the vendor settings: 9600 Baud / 8E1.
 
 # Parts List
 - ORNO OR-WE-514 Modbus RTU Energy Meter (https://www.amazon.de/Orno-Wechselstromz%C3%A4hler-1-Phasen-Stromz%C3%A4hler-Zertifikat-Energieverbrauch/dp/B07Q1J1GJ4/ref=sr_1_1)
@@ -23,7 +23,7 @@ Python libraries
 
 other:
 - MQTT broker of your choice
-- Linux Platform (Raspian Stretch)
+- Linux Platform (testet on Raspian Stretch)
 
 # Starting the scipt
 ```
