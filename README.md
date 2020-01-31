@@ -30,6 +30,6 @@ other:
 # first make it executable:
 chmod +x modbus-mqtt.py
 # executing:
-./modbus-mqtt.py&
+./modbus-mqtt.py
 ```
 recommended is creating an systemd service to make it running in the backround
