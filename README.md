@@ -21,6 +21,10 @@ Python libraries
 - timeloop
 - datetime
 
+Intallation:
+```
+pip3 install io minimalmodbus serial paho.mqtt.client time timeloop datetime
+```
 other:
 - MQTT broker of your choice
 - Linux Platform (testet on Raspian Stretch)
