@@ -88,7 +88,7 @@ def on_connect(client, userdata, flags, rc):
 
         print("Connection failed")
 
-client = mqttClient.Client("modbus-mqtt@junkers")   #create new instance
+client = mqttClient.Client("modbus-mqtt@raspberrypi")   #create new instance
 client.username_pw_set(user, password=password)    #set username and password
 client.on_connect= on_connect                      #attach function to callback
 client.connect(broker_address, port=port)          #connect to broker
