@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import io
 import minimalmodbus
+import struct
 import serial
 import paho.mqtt.client as mqttClient
 import time
@@ -63,22 +64,24 @@ def sample_job_every_10s():
         #PowerFactorTxt = "Der Leistungsfaktor ist: %.3f " % PowerFactor
         #print (PowerFactorTxt)
         client.publish("home/energy/solar/PowerFactor",PowerFactor) # publish PowerFactor
-        #############################
-        #BEGIN NOT ready
         ActiveEnergy = smartmeter.read_registers(40960, 10, 3) #read_registers(registeraddress, number_of_registers, functioncode=3)
-        # Response from meter is: [0, 130, 0, 130, 0, 0, 0, 0, 0, 0] 
+        # Response from meter is: [0, 130, 0, 130, 0, 0, 0, 0, 0, 0]
         # which means: Total Energy 1.3kWh, T1 Energy 1.3kWh, T2 Energy 0.0kWh, T3 Energy 0.0kWh, T4 Energy 0.0kWh
-        #ActiveEnergyTxt = "Zählerstand Energie ist: %.1f kWh" % ActiveEnergy
+        bits = (ActiveEnergy[0] << 16) + ActiveEnergy[1] # combining Total Energy valuepair
+        s = struct.pack('>i', bits) # write to string an interpret as int
+        tmp = struct.unpack('>L', s)[0] # extract from string and interpret as unsigned long
+        tmpFloat = tmp/100 # needs to be converted
+        ActiveEnergyTxt = "Zählerstand Energie ist: %.1f kWh" % tmpFloat
         #print (ActiveEnergyTxt)
-        ActiveEnergy = ActiveEnergy/100
-        client.publish("home/energy/solar/ActiveEnergy",int(ActiveEnergy)) # publish ActiveEnergy in kWh !!! 
-        #NOT ready, need interpretation advice - will not work with bigger numbers
-        ReactiveEnergy = smartmeter.read_float(40990, 3, 4, 0)
-        #ReactiveEnergyTxt = "Zählerstand Blindenergie ist: %d kvarh" % ReactiveEnergy
+        client.publish("home/energy/solar/ActiveEnergy",float(tmpFloat)) # publish ActiveEnergy in kWh
+        ReactiveEnergy = smartmeter.read_registers(40990, 10, 3) #read_registers(registeraddress, number_of_registers, functioncode=3)
+        bits = (ReactiveEnergy[0] << 16) + ReactiveEnergy[1] # combining Total Energy valuepair
+        s = struct.pack('>i', bits) # write to string an interpret as int
+        tmp = struct.unpack('>L', s)[0] # extract from string and interpret as unsigned long
+        tmpFloat = tmp/100 # needs to be converted
+        ReactiveEnergyTxt = "Zählerstand Blindenergie ist: %.1f kvarh" % tmpFloat
         #print (ReactiveEnergyTxt)
-        client.publish("home/energy/solar/ReactiveEnergy",int(ReactiveEnergy)) # publish ReactiveEnergy in kvarh
-        #END NOT ready
-        #############################
+        client.publish("home/energy/solar/ReactiveEnergy",float(tmpFloat)) # publish ReactiveEnergy in kvarh
         errorcode = "OK"
         client.publish("home/energy/solar/ModbusStatus",errorcode) # publish error status Modbus connection
     except:
