@@ -63,14 +63,22 @@ def sample_job_every_10s():
         #PowerFactorTxt = "Der Leistungsfaktor ist: %.3f " % PowerFactor
         #print (PowerFactorTxt)
         client.publish("home/energy/solar/PowerFactor",PowerFactor) # publish PowerFactor
-        ActiveEnergy = smartmeter.read_float(40960, 3, 4, 0)  # registeraddress, functioncode, number_of_registers, byteorder
-        #ActiveEnergyTxt = "Zählerstand Energie ist: %d kWh" % ActiveEnergy
+        #############################
+        #BEGIN NOT ready
+        ActiveEnergy = smartmeter.read_registers(40960, 10, 3) #read_registers(registeraddress, number_of_registers, functioncode=3)
+        # Response from meter is: [0, 130, 0, 130, 0, 0, 0, 0, 0, 0] 
+        # which means: Total Energy 1.3kWh, T1 Energy 1.3kWh, T2 Energy 0.0kWh, T3 Energy 0.0kWh, T4 Energy 0.0kWh
+        #ActiveEnergyTxt = "Zählerstand Energie ist: %.1f kWh" % ActiveEnergy
         #print (ActiveEnergyTxt)
-        client.publish("home/energy/solar/ActiveEnergy",int(ActiveEnergy)) # publish ActiveEnergy in kWh
+        ActiveEnergy = ActiveEnergy/100
+        client.publish("home/energy/solar/ActiveEnergy",int(ActiveEnergy)) # publish ActiveEnergy in kWh !!! 
+        #NOT ready, need interpretation advice - will not work with bigger numbers
         ReactiveEnergy = smartmeter.read_float(40990, 3, 4, 0)
         #ReactiveEnergyTxt = "Zählerstand Blindenergie ist: %d kvarh" % ReactiveEnergy
         #print (ReactiveEnergyTxt)
         client.publish("home/energy/solar/ReactiveEnergy",int(ReactiveEnergy)) # publish ReactiveEnergy in kvarh
+        #END NOT ready
+        #############################
         errorcode = "OK"
         client.publish("home/energy/solar/ModbusStatus",errorcode) # publish error status Modbus connection
     except:
