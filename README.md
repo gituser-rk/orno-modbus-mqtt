@@ -16,6 +16,7 @@ Python libraries
 - io
 - minimalmodbus
 - serial
+- struct
 - paho.mqtt.client
 - time
 - timeloop
@@ -36,4 +37,4 @@ chmod +x modbus-mqtt.py
 # executing:
 ./modbus-mqtt.py
 ```
-recommended is creating an systemd service to make it running in the backround
+I've created a systemd service to make it running in the backround
