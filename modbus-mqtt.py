@@ -61,7 +61,7 @@ def sample_job_every_10s():
         tmp = struct.unpack('>L', s)[0] # extract from string and interpret as unsigned long
         tmpFloat = tmp/100 # needs to be converted
         client.publish("home/energy/solar/ReactiveEnergy",float(tmpFloat)) # publish ReactiveEnergy in kvarh
-        if smartmeter.debug = True:
+        if smartmeter.debug == True:
             FrequencyTxt = "Die Frequenz ist: %.2f Herz" % Frequency
             print (FrequencyTxt)
             VoltageTxt = "Die Spannung ist: %.2f Volt" % Voltage
