@@ -7,7 +7,7 @@ I've changed the serial setting in the meter to 9600 Baud / 8N1 with the vendor 
 
 # Parts List
 - ORNO OR-WE-514 Modbus RTU Energy Meter (https://www.amazon.de/Orno-Wechselstromz%C3%A4hler-1-Phasen-Stromz%C3%A4hler-Zertifikat-Energieverbrauch/dp/B07Q1J1GJ4/ref=sr_1_1)
-![Pic1](pics/or-we-514.png)
+![Pic1](pics/OR-WE-514.jpg)
 - USB-RS485 ch341-uart converter (https://www.makershop.de/module/kommunikation-module/rs485-adapter/)
 ![Pic2](pics/rs485-usb.PNG)
 
