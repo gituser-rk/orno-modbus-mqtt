@@ -53,14 +53,14 @@ def sample_job_every_10s():
         bits = (ActiveEnergy[0] << 16) + ActiveEnergy[1] # combining Total Energy valuepair
         s = struct.pack('>i', bits) # write to string an interpret as int
         tmp = struct.unpack('>L', s)[0] # extract from string and interpret as unsigned long
-        tmpFloat = tmp/100 # needs to be converted
-        client.publish("home/energy/solar/ActiveEnergy",float(tmpFloat)) # publish ActiveEnergy in kWh
+        tmpFloat1 = tmp/100 # needs to be converted
+        client.publish("home/energy/solar/ActiveEnergy",float(tmpFloat1)) # publish ActiveEnergy in kWh
         ReactiveEnergy = smartmeter.read_registers(40990, 10, 3) #read_registers(registeraddress, number_of_registers, functioncode=3)
         bits = (ReactiveEnergy[0] << 16) + ReactiveEnergy[1] # combining Total Energy valuepair
         s = struct.pack('>i', bits) # write to string an interpret as int
         tmp = struct.unpack('>L', s)[0] # extract from string and interpret as unsigned long
-        tmpFloat = tmp/100 # needs to be converted
-        client.publish("home/energy/solar/ReactiveEnergy",float(tmpFloat)) # publish ReactiveEnergy in kvarh
+        tmpFloat2 = tmp/100 # needs to be converted
+        client.publish("home/energy/solar/ReactiveEnergy",float(tmpFloat2)) # publish ReactiveEnergy in kvarh
         if smartmeter.debug == True:
             FrequencyTxt = "Die Frequenz ist: %.2f Herz" % Frequency
             print (FrequencyTxt)
@@ -78,9 +78,9 @@ def sample_job_every_10s():
             print (PowerFactorTxt)
             #Response from meter is: [0, 130, 0, 130, 0, 0, 0, 0, 0, 0]
             #which means: Total Energy 1.3kWh, T1 Energy 1.3kWh, T2 Energy 0.0kWh, T3 Energy 0.0kWh, T4 Energy 0.0kWh
-            ActiveEnergyTxt = "Zählerstand Energie ist: %.1f kWh" % tmpFloat
+            ActiveEnergyTxt = "Zählerstand Energie ist: %.1f kWh" % tmpFloat1
             print (ActiveEnergyTxt)
-            ReactiveEnergyTxt = "Zählerstand Blindenergie ist: %.1f kvarh" % tmpFloat
+            ReactiveEnergyTxt = "Zählerstand Blindenergie ist: %.1f kvarh" % tmpFloat2
             print (ReactiveEnergyTxt)            
         errorcode = "OK"
         client.publish("home/energy/solar/ModbusStatus",errorcode) # publish error status Modbus connection
